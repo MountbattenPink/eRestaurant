@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:body>
+<ui:composition template="WEB-INF/template/KitchTemplate.xhtml">
+	<ui:define name="content">
+<center><h2>KITCHEN PENDING ORDER LIST</h2></center>
+ 
+ 
+ <h:form id="form">
+ <p:growl id="msgs"/>
+	  <p:dataTable id="singleDT" var="dish" value="#{kitchHome.model}" selectionMode="single" 
+	  selection="#{kitchHome.selectedOrderDish}" rowKey="#{dish.orderDish_id}"
+	   rows="50"  paginator="true"
+ paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="50,100,150"
+                       editable="true"  >
+            
+             <p:growl id="msgs" showDetail="true"/> 
+              
+    <p:column headerText="Category" sortBy="#{dish.dish.category.name}" >
+        <h:outputText value="#{dish.dish.category.name}" />
+    </p:column>
+	
+	
+    <p:column headerText="Name" sortBy="#{dish.dish.name}" >
+        <h:outputText value="#{dish.dish.name}" />
+    </p:column>
+    
+	<p:column headerText="Time Of Order" sortBy="#{dish.order.timeStamp}">
+        <h:outputText value="#{dish.order.timeStamp}" >
+        <f:convertDateTime pattern="dd/MM/yyyy  hh:mm" />
+        </h:outputText>
+    </p:column>
+
+	<p:column headerText="Mark as prepared" style="width:100px" >
+	
+		<p:commandButton icon="ui-icon-circle-check" action="#{kitchHome.markPrepared(dish)}" update=":form"/>
+		
+	</p:column>
+	
+	  </p:dataTable>
+	
+		<br/><br/> 
+		
+	</h:form>	
+	</ui:define>
+	</ui:composition>
+	</h:body>
+	
+	
+</html>

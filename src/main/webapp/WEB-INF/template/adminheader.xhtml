@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html"
+xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+<ui:composition> 
+ <img src="images/logo.jpg"/>
+ <span align="right"><h2>Welcome, #{login.currentUser.staff.fullName}</h2></span>
+
+<p:megaMenu orientation="horizontal" style="margin-top:20px">
+<p:menuitem value="Edit Categories" outcome="adminHome" icon="ui-icon-check"/>
+<p:menuitem value="Edit Menu" outcome="adminHomeDish" icon="ui-icon-check"/>
+<p:menuitem value="Orders History" outcome="adminHistory" icon="ui-icon-check"/>
+<p:menuitem value="Pofile Settings" outcome="adminProfile" icon="ui-icon-check"/>
+<p:menuitem value="Log out" outcome="logout" icon="ui-icon-close"/>
+</p:megaMenu>
+
+	</ui:composition> </h:body>
+</html>

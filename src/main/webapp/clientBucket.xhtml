@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="WEB-INF/template/ClientTemplate.xhtml">
+	
+	<ui:define name="content">
+	<span align="right"><h4>Welcome, #{login.currentUser.customer.fullName}
+	<h:link id="link" outcome="clientBucket" >
+<h4><b> Shopping cart:  <h:outputText value="#{clientBucket.wholeAmount}" /> / <h:outputText value="#{clientBucket.wholeSum}" > 
+<f:convertNumber pattern="#0.00" />
+</h:outputText>hrn </b></h4>
+</h:link></h4></span>
+	<center><h2>Shopping cart</h2></center>
+<h:form id="form">
+      <p:growl id="msgs" showDetail="true"/>
+ 
+    <p:dataTable id="buckettable" value="#{clientBucket.bucketContent}" var="entry" editable="true">
+    
+  	<p:ajax event="rowEdit" listener="#{clientBucket.onRowEdit}" update=":form:msgs" />
+       <p:ajax event="rowEditCancel" listener="#{clientBucket.onRowCancel}" update=":form:msgs" />
+ 
+  <p:column headerText="Image">
+   <img src="images/dishes/#{entry.dish.imageName}.jpg" style="width:300px;height:200px"/>
+ </p:column>
+     <p:column id="column1">
+        <f:facet name="header">
+            <h:outputText value="Dish name"></h:outputText>
+        </f:facet>
+            <h:outputText value="#{entry.dish.name}"></h:outputText>
+    </p:column>
+     <p:column id="column2">
+        <f:facet name="header">
+            <h:outputText value="Dish price"></h:outputText>
+        </f:facet>
+            <h:outputText value="#{entry.dish.price}hrn"></h:outputText>
+    </p:column>
+    <p:column id="column4">
+        <f:facet name="header">
+            <h:outputText value="Amount"></h:outputText>
+        </f:facet>
+        <p:cellEditor>
+              <f:facet name="output">
+                    <h:outputText value="#{entry.amount}"/></f:facet>
+                 <f:facet name="input">
+                 <h:inputText id="txt1" value="#{entry.amount}"/>
+                 <p:slider for="txt1" />
+                 </f:facet>
+               </p:cellEditor>  
+    </p:column>
+    
+    <p:column id="column3">
+        <f:facet name="header">
+            <h:outputText value="Sum"></h:outputText>
+        </f:facet>
+            <h:outputText value="#{entry.amount*entry.dish.price}"><f:convertNumber pattern="#0.00" />
+            </h:outputText>
+    </p:column>
+    
+    <p:column style="width:32px">
+     <f:facet name="header">
+            <h:outputText value="Edit"></h:outputText>
+        </f:facet>
+           <p:rowEditor />
+       </p:column>
+<p:column headerText="Action">
+
+    <p:commandButton value="Remove" action="#{clientBucket.remove(entry)}" />
+    </p:column>
+    
+    
+    </p:dataTable>
+    
+      <p:commandButton value="Submit order" update=":form"
+      onclick="PF('#{clientBucket.currentDialog}').show();"
+    	
+      />
+       
+	</h:form> 
+	
+	
+	
+	
+	
+	
+<p:dialog header="Order submitting" widgetVar="emptyBucket" dynamic="true">
+<h:form>
+ <p:growl id="growl" showDetail="true" sticky="true" />  
+  <h:outputText value="Order contains no dishes!"/><br/><br/>
+    <center><p:commandButton value="Ok" onclick="PF('emptyBucket').hide();" update="growl"/></center>
+   </h:form>
+    </p:dialog>
+
+
+
+<p:dialog header="Order submitting" widgetVar="register" dynamic="true">
+<h:form>
+ <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true" />  
+  <h:outputText for="address" value="Please enter your address here: " />
+  <p:inputText id="address" value="#{clientBucket.client_address}"  required="true" label="address"/>
+  <br/><br/> or:
+  
+<h:link outcome="login" value="Sign in" />
+<br/>
+<h:link outcome="register" value="Register" />
+
+      <center><p:commandButton value="Ok"  onclick="PF('register').hide();" update=":form" 
+      action="#{clientBucket.clearBucket}"/></center>
+   </h:form>
+    </p:dialog>
+
+
+<p:dialog header="Thank you" widgetVar="normal" dynamic="true">
+<h:form>
+  <h:outputText value="Thank you for order. Wait for your dishes in a short time." />
+   <br/><br/>
+  
+      <center><p:commandButton value="Ok" action="#{clientBucket.clearBucket}"  
+      onclick="PF('normal').hide();" update=":form" /></center>
+   </h:form>
+    </p:dialog>
+     
+     
+  
+
+	<br/><br/> 
+	</ui:define>
+	</ui:composition>
+</html>

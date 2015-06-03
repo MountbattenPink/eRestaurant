@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="WEB-INF/template/GuestTemplate.xhtml">
+	
+	<ui:define name="content">
+<span align="right"><h4>
+	<h:link id="link" outcome="guestBucket" >
+<h4><b> Shopping cart:  <h:outputText value="#{clientBucket.wholeAmount}" /> / <h:outputText value="#{clientBucket.wholeSum}" > 
+<f:convertNumber pattern="#0.00" />
+</h:outputText>hrn </b></h4>
+</h:link></h4></span>	<center><h1>MENU</h1></center>
+
+     <h:form id="form">
+	<p:growl id="msgs"/>
+    <p:accordionPanel activeIndex="-1"  dynamic="true" cache="true" value="#{guestHome.categories}" var="category">
+         <p:ajax event="tabChange" listener="#{guestHome.onTabChange}" update=":form:msgs dishes"/>
+        <p:ajax event="tabClose" listener="#{guestHome.onTabClose}"  update=":form:msgs dishes" />
+        <p:tab title="Category - #{category.name}">
+            <h:panelGrid columns="3" cellpadding="5">
+                
+                <p:dataTable id="dishes" var="dish" value="#{category.dishes}">
+   <p:column headerText="Image">
+   <img src="images/dishes/#{dish.imageName}.jpg" style="width:300px;height:200px"/>
+ </p:column>
+    <p:column headerText="Name">
+        <h:outputText value="#{dish.name}" />
+    </p:column>
+<p:column headerText="Price, hrn">
+        <h:outputText value="#{dish.price}" />
+    </p:column>
+
+
+<p:column headerText="Info">
+        <h:outputText value="#{dish.otherInfo}" />
+    </p:column>
+
+
+<p:column headerText="Action">
+    <p:commandButton value="Add to bucket" action="#{clientBucket.confirm(dish)}" onclick="PF('dlg').show();"/>
+   </p:column>
+
+
+ </p:dataTable>
+                
+           </h:panelGrid>
+        </p:tab>
+    </p:accordionPanel>
+</h:form>	 
+
+ 
+<p:dialog header="Confirmation" widgetVar="dlg" dynamic="true">
+<h:form>
+ <p:growl id="growl" showDetail="true" sticky="true" />  
+   <h:outputText value="How many portions?" />
+   <h:inputText id="txt1" value="#{clientBucket.amount}" />
+   <p:slider for="txt1" />
+   <br/>
+    <p:commandButton value="Ok" action="#{clientBucket.addToBucket}" onclick="PF('dlg').hide();" update="growl :link"/>
+  </h:form>
+</p:dialog>
+
+	<br/><br/> 
+	</ui:define>
+	</ui:composition>
+</html>

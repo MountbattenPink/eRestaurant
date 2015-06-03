@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+<ui:composition template="WEB-INF/template/SUTemplate.xhtml">
+	<ui:define name="content">
+	<center><h2>CHANGE PASSWORD</h2></center>
+	
+<h:form>
+<p:messages id="messages" showDetail="true" autoUpdate="true" />
+ <p:panel>
+    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">                   
+          <h:outputText value="Password * : " />
+        <p:password id="pass1" value="#{suBean.password}" feedback="true" match="pass2" label="Password 1" required="true" />
+      <h:outputLabel for="pass2" value="Repeat password * : " />
+        <p:password id="pass2" value="#{suBean.password}" label="Password 2" required="true" />
+     <p:commandButton update="matchGrid" value="Change Password" action="#{suBean.changePass}"/>
+      </h:panelGrid>      
+  </p:panel>
+</h:form>	 
+
+	<br/><br/> 
+	</ui:define>
+	</ui:composition>
+	</h:body>
+</html>

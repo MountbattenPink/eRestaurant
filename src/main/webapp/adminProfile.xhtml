@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="WEB-INF/template/AdminTemplate.xhtml">
+	
+	<ui:define name="content">
+	<center><h2>CHANGE PROFILE SETTINGS</h2></center>
+
+     <h:form>
+    <p:panel>
+        <p:messages autoUpdate="true"/>
+    <h:panelGrid id="grid" columns="4" cellpadding="5">
+            <h:outputLabel for="login" value="Login:*" style="font-weight:bold"/>                    
+            <p:inputText id="login" value="#{adminPofile.currentUser.login}" required="true" label="Login"/>
+            <p:message for="login" />
+            <h:outputText value="#{admin.currentUser.login}" />
+         </h:panelGrid>    
+          
+          
+           <h:panelGrid id="fullNameGrid" columns="4" cellpadding="5">
+              <h:outputLabel for="name" value="Full Name:*" style="font-weight:bold"/>                    
+            <p:inputText id="name" value="#{adminPofile.currentUser.fullName}" 
+            validatorMessage="Please enter valid name and surname." required="true" label="Name">
+                <f:validateRegex pattern="^([a-zA-Z]+\s)*[a-zA-Z]+$" />
+            </p:inputText>
+            <p:message for="name" />
+            <h:outputText value="#{adminPofile.currentUser.fullName}" />
+            </h:panelGrid>
+          
+          
+           <h:panelGrid columns="3" id="matchGrid" cellpadding="5">                   
+          <h:outputText value="Password:*"  style="font-weight:bold"/>
+        <p:password id="pass1" value="#{adminPofile.currentUser.password}" feedback="true" match="pass2" required="true" label="Password 1"/>
+         <p:message for="pass1" />
+      <h:outputLabel for="pass2" value="Repeat password:*"  style="font-weight:bold"/>
+        <p:password id="pass2" value="#{adminPofile.currentUser.password}" required="true" label="Password 2"/>
+         <p:message for="pass2" />
+      </h:panelGrid>    
+            
+         
+  <p:commandButton value="Change data" update="matchGrid" ajax="false" icon="ui-icon-check" action="#{adminPofile.changeData}" 
+   style="margin-right:10px"/>
+ </p:panel>
+ 
+</h:form>	 
+
+	<br/><br/> 
+	</ui:define>
+	</ui:composition>
+</html>

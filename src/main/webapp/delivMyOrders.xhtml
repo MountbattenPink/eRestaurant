@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+<ui:composition template="WEB-INF/template/DelivTemplate.xhtml">
+	<ui:define name="content">
+<center><h2>MY ORDERS</h2></center>
+ 
+ <h:form id="form">
+  <p:growl id="msgs"/>
+	  <p:dataTable id="singleDT" var="order" value="#{delivHomeAndMyOrders.modelMyOrders}" selectionMode="single" 
+	  selection="#{delivHomeAndMyOrders.selectedOrder}" rowKey="#{order.order_id}"
+	   rows="50"  paginator="true"
+ paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="50,100,150"
+                       editable="true" >
+            
+             <p:growl id="msgs" showDetail="true"/> 
+             
+             <p:column style="width:50px"> 
+             <p:rowToggler /> 
+             </p:column>  
+             
+             <p:rowExpansion>
+              
+               <p:dataList value="#{order.orderDishes}" var="od" type="ordered">
+        				#{od.dish.name}
+   					</p:dataList>
+              </p:rowExpansion> 
+             
+             
+    <p:column headerText="Date/time" sortBy="#{order.timeStamp}" >
+        <h:outputText value="#{order.timeStamp}" >
+         <f:convertDateTime pattern="dd/MM/yyyy  hh:mm" />
+       </h:outputText>
+    </p:column>
+	
+	
+    <p:column headerText="Client Address" sortBy="#{order.client_address}" >
+        <h:outputText value="#{order.client_address}" />
+    </p:column>
+    
+	
+    <p:column headerText="Status" sortBy="#{order.status}" >
+        <h:outputText value="#{order.status}" />
+    </p:column>
+	
+	<p:column headerText="Report delivered" style="width:100px" >
+	
+		<p:commandButton icon="ui-icon-circle-check" action="#{delivHomeAndMyOrders.reportDelivered(order)}" 
+		update=":form"/>
+		
+	</p:column>
+	
+	  </p:dataTable>
+	</h:form>
+		<br/><br/> 
+		
+		
+	</ui:define>
+	</ui:composition>
+	</h:body>
+	
+	
+</html>

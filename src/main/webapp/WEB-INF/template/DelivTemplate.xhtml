@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <title><ui:insert name="title">Delivery staff</ui:insert></title>
+</h:head>
+
+<h:body>
+<ui:debug hotkey="x" rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}"/>
+
+<div id="header">
+    <ui:insert name="header">
+    	 <ui:include src="delivheader.xhtml"/>
+    </ui:insert>
+</div>
+
+
+<div id="content">
+  <ui:insert name="content">
+    	 <ui:include src="delivcontent.xhtml"/>
+  </ui:insert>
+</div>
+ <div style="position:absolute;bottom:0;width:100%;height:60px;">
+<div id="footer">
+  <ui:insert name="footer">
+    	<ui:include src="delivfooter.xhtml"/>
+  </ui:insert>
+</div>
+</div>
+</h:body>
+
+</html>

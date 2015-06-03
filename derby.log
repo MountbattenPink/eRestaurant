@@ -1,0 +1,18 @@
+----------------------------------------------------------------
+Mon Apr 06 18:02:53 EEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-014c-8f3c-8e44-00000e7076f0 
+on database directory C:\BionicProjectWorkSpace\DB with class loader WebappClassLoader
+  context: /finalProject
+  delegate: false
+----------> Parent Classloader:
+java.net.URLClassLoader@27c170f0
+ 
+Loaded from jar:file:/C:/sts-bundle/pivotal-tc-server-developer-3.0.0.RELEASE/base-instance/wtpwebapps/finalProject/WEB-INF/lib/derby-10.10.1.1.jar!/org/apache/derby/impl/store/raw/data/BaseDataFileFactoryJ4.class
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_20-b26
+user.dir=C:\BionicProjectWorkSpace\finalProject
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

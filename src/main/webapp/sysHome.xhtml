@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:body>
+<ui:composition template="WEB-INF/template/SysTemplate.xhtml">
+	
+	<ui:define name="content">
+	<h:form>  
+	<p:growl id="msgs"/>
+	 <p:messages autoUpdate="true"/>
+	<h:panelGrid columns="3" cellpadding="5">
+        <p:outputLabel for="start" value="Start date:" />
+        <p:calendar id="start" value="#{sysHome.startUtil}" pattern="dd-MM-yyyy" mask="true"  required="true" label="start"/>
+  <p:message for="start" />
+           
+  <p:outputLabel for="finish" value="Finish date:" />
+        <p:calendar id="finish" value="#{sysHome.finishUtil}"  pattern="dd-MM-yyyy" mask="true" required="true" label="finish"/>
+       <p:message for="finish" />
+       
+	 <p:commandButton value="Change data" update="tbl" ajax="false" icon="ui-icon-check" action="#{sysHome.init1}" 
+   style="margin-right:10px"/>
+           
+        </h:panelGrid>
+ 
+	</h:form>
+	 <h:form>
+	 <center><h1>BY EVERY CATEGORY FOR CHOOSEN PERIOD</h1></center>
+	    <h:panelGrid columns="2" style="width:100%">
+<p:chart type="pie" dataFormat="value" model="#{sysHome.pieModelAmount}" style="height:400px;" showDataLabels="true" />
+<p:chart type="pie" dataFormat="value" model="#{sysHome.pieModeSum}"  style="height:400px;" showDataLabels="true" />
+</h:panelGrid> 
+
+	 <center><h1>BY EVERY CATEGORY BY DATE</h1></center>
+	    <h:panelGrid columns="2" style="width:100%">
+<p:chart type="line" model="#{sysHome.dateModel}" style="height:500px;" widgetVar="chart"/>
+<p:chart type="line" model="#{sysHome.dateModelSumm}"  style="height:500px;"/>
+</h:panelGrid>
+ <center><h1>BY ALL CATEGORIES BY DATE</h1></center>
+<h:panelGrid columns="2" style="width:100%">
+<p:chart type="bar" model="#{sysHome.areaModelAmount}"  style="height:400px;" shadow="true" barPadding="60" />
+<p:chart type="bar" model="#{sysHome.areaModel}"  style="height:400px;" shadow="true" barPadding="60"/>
+
+</h:panelGrid>
+	  
+	
+	</h:form>
+<br></br>
+	<h:form id="table" style="margin-bottom:200px">
+	 <p:dataTable id="tbl" var="serie" value="#{sysHome.reportTableData}"   paginator="true"
+	 rows="10" paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink}" 
+	 rowStyleClass="old" >
+	  <f:facet name="header">
+            FULL REPORT FOR CHOOSEN PERIOD
+        </f:facet>
+                 <p:column headerText="Category" >
+                   <h:outputText value="#{serie.category.name}" />
+           		</p:column>
+                <p:column headerText="Date">
+                <h:outputText value="#{serie.timestamp}" />
+            </p:column>
+            <p:column headerText="Amount of dishes sold">
+                <h:outputText value="#{serie.amount}" />
+            </p:column>
+             <p:column headerText="Sum of dishes sold">
+                <h:outputText value="#{serie.sum}" />
+            </p:column>
+             <p:columnGroup type="footer">
+                <p:row>
+                    <p:column footerText="" />
+                    <p:column footerText="Totals: " style="text-align:right"/>
+                    <p:column footerText="#{sysHome.wholeAmount}" />
+                    <p:column footerText="#{sysHome.wholeSum}" />
+                </p:row>
+            </p:columnGroup>
+ </p:dataTable>
+ 	
+         <h:commandLink id="report"><img src="images/PDFicon.gif"  style="height:100px" />
+        <p:dataExporter type="pdf" target="tbl" fileName="report" pageOnly="false" />
+    </h:commandLink>
+    <h:outputText value="save to PDF"/>
+	</h:form >
+	 </ui:define>
+	
+</ui:composition>
+</h:body>
+
+</html>
+

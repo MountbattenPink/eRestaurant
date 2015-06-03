@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:body>
+<ui:composition template="WEB-INF/template/AdminTemplate.xhtml">
+	<ui:define name="content">
+
+<center><h2>RESTAURANT MENU EDIT</h2></center>
+  	
+ 		<h:form id="dish"  >
+		 <p:growl id="msgs"/>
+ 		
+		
+		
+ <h3><b>ADD NEW DISH</b></h3>
+		<h:panelGrid columns="4">
+			 <h:outputLabel for="nameDish" value="Name:" style="font-weight:bold"/>                    
+            <p:inputText id="nameDish" value="#{adminHomeDish.dish.name}" required="true" label="Name"/>
+            <p:message for="nameDish" />
+            <h:outputText value="#{adminHomeDish.dish.name}" />
+            		</h:panelGrid>
+ 	 	<h:panelGrid columns="3">
+	        <h:outputLabel for="IsKitchenDish" value="Requires preparation?:" style="font-weight:bold"/>                    
+            <p:selectOneRadio id="IsKitchenDish" value="#{adminHomeDish.dish.isKitchen}" required="true" label="Requires preparation">
+            	<f:selectItem itemValue="true" itemLabel="Yes" />
+				<f:selectItem itemValue="false" itemLabel="No" />
+			<p:message for="IsKitchenDish" />
+			</p:selectOneRadio>
+    	 			</h:panelGrid>
+	
+		<h:panelGrid columns="4">
+	       <h:outputLabel for="priceDish" value="Price:" style="font-weight:bold"/>                    
+            <p:inputText id="priceDish" value="#{adminHomeDish.dish.price}" required="true" label="Price">
+             <f:validateDoubleRange minimum="0" />
+            </p:inputText>
+            <p:message for="priceDish" />
+            <h:outputText value="#{adminHomeDish.dish.price}" />
+    	 			</h:panelGrid>
+	
+	
+	        <h:outputLabel for="categoryDish" value="Category:" style="font-weight:bold"/>                    
+            <p:selectOneMenu id="categoryDish" value="#{adminHomeDish.dish.category}">
+             <f:selectItems value="#{adminHomeDish.categories}" var="category" itemLabel="#{category.name}" itemValue="#{category}" />
+                    <f:converter converterId="categoryConverter"/>
+		 	</p:selectOneMenu>
+    	
+			 	
+		<h:panelGrid columns="4">
+	        <h:outputLabel for="OtherInfoDish" value="Other info:" style="font-weight:bold"/>                    
+            <p:inputTextarea id="OtherInfoDish" value="#{adminHomeDish.dish.otherInfo}"/>
+            		</h:panelGrid>
+    
+
+ <h:form enctype="multipart/form-data">
+            <t:inputFileUpload value="#{adminHomeDish.file}" />
+          </h:form>
+   
+
+
+     		<h:panelGrid columns="4">
+	 	 	<p:commandButton value="Add" ajax="false" icon="ui-icon-check" validateClient="true" style="margin-right:10px"
+					 update="dish msgs @parent" action="#{adminHomeDish.reinit}">
+					 		<p:collector value="#{adminHomeDish.dish}" unique="false" addTo="#{adminHomeDish.dishes}"  ></p:collector>
+			</p:commandButton>
+	
+		 			</h:panelGrid>
+		
+		
+		
+ <center><h3><b>ALL DISHES</b></h3></center>
+ <p:outputPanel id="dishTable">
+			<p:dataTable id="dishes" value="#{adminHomeDish.dishes}" editable="true" var="dish" border="1">
+				 <p:ajax event="rowEdit" listener="#{adminHomeDish.onRowEdit}" update=":dish:msgs" />
+       <p:ajax event="rowEditCancel" listener="#{adminHomeDish.onRowCancel}" update=":dish:msgs" />
+ 
+			<p:column headerText="Image">
+   <img src="images/dishes/#{dish.imageName}.jpg" style="width:300px;height:200px"/>
+ </p:column>
+                
+                <p:column>
+					<f:facet name="header">
+						<h:outputText value="Name"/>
+					</f:facet>
+					  <p:cellEditor>
+          <f:facet name="output">
+					<h:outputText value="#{dish.name}" /></f:facet>
+          <f:facet name="input">
+					<h:inputText value="#{dish.name}"  required="true"/></f:facet>
+					
+					</p:cellEditor>
+					</p:column>
+                
+                <p:column>
+					<f:facet name="header">
+						<h:outputText value="Requires preparation"/>
+					</f:facet>
+					 <p:cellEditor>
+          <f:facet name="output">
+					<h:outputText value="#{dish.isKitchen}" /></f:facet>
+          <f:facet name="input"><p:selectOneMenu value="#{dish.isKitchen}" required="true" style="width:100%">
+           <f:selectItem itemLabel="yes" itemValue="true"/>
+               <f:selectItem itemLabel="no" itemValue="false"/> 
+               </p:selectOneMenu>
+          </f:facet></p:cellEditor>
+          </p:column>
+                
+                <p:column>
+					<f:facet name="header">
+						<h:outputText value="Price, hrn"/>
+					</f:facet>
+					<p:cellEditor>
+               <f:facet name="output">
+					<h:outputText value="#{dish.price}" >
+                <f:convertNumber pattern="#,###,##0.00"/>
+               </h:outputText>
+					</f:facet>
+					 <f:facet name="input"><h:inputText value="#{dish.price}" required="true">
+				 	  <f:validateDoubleRange minimum="0" />
+          		  </h:inputText></f:facet></p:cellEditor>
+					
+					</p:column>
+                
+                <p:column>
+					<f:facet name="header">
+						<h:outputText value="Category"/>
+					</f:facet>
+					 <p:cellEditor>
+               <f:facet name="output"><h:outputText value="#{dish.category.name}" /></f:facet>
+               <f:facet name="input">
+               <p:selectOneMenu id="categoryDish" value="#{dish.category}"
+               converter="categoryConverter"  style="width:150px">
+             <f:selectItems value="#{adminHomeDish.categories}" var="category" itemLabel="#{category.name}" itemValue="#{category}" />
+           </p:selectOneMenu>
+               </f:facet>
+           </p:cellEditor>
+           </p:column>
+       
+                <p:column>              
+	<f:facet name="header">
+						<h:outputText value="Other info"/>
+					</f:facet>
+					<p:cellEditor>
+               <f:facet name="output">
+					<h:outputText value="#{dish.otherInfo}" />
+					</f:facet>
+					 <f:facet name="input"><h:inputText value="#{dish.otherInfo}" required="true">
+          		 </h:inputText></f:facet></p:cellEditor>
+				</p:column>
+                
+                
+                
+       <p:column style="width:32px">
+       <f:facet name="header">
+						<h:outputText value="Edit"/>
+					</f:facet>
+					
+           <p:rowEditor />
+       </p:column>
+                
+                <p:column headerText="Action">
+                <p:commandLink value="Remove" action="#{adminHomeDish.remove(dish)}" update=":dish:dishTable :dish:msgs :all" process=":dish:dishTable">
+                 </p:commandLink>
+            </p:column>
+				
+
+
+   </p:dataTable>
+</p:outputPanel>
+		</h:form>
+<br/><br/><br/>
+			<center>
+		<h:form id="all">
+	 <p:commandButton action="#{adminHomeDish.saveAll}" value="CHANGE SETTINGS" 
+	 ajax="false" icon="ui-icon-check"
+	 style="margin-right:10px"/>
+	</h:form></center>
+	
+	</ui:define>
+	</ui:composition>
+	</h:body>
+	
+	
+</html>

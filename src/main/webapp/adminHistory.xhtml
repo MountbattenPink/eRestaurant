@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:body>
+<ui:composition template="WEB-INF/template/AdminTemplate.xhtml">
+	<ui:define name="content">
+<center><h2>ORDER HISTORY</h2></center>
+ 
+ 
+ <h:form id="form">
+	  <p:dataTable id="singleDT" var="order" value="#{adminHistory.orderHistory}" 
+	   rows="50"  paginator="true"
+ paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="50,100,150">
+            
+          
+              <p:column style="width:50px"> 
+             <p:rowToggler /> 
+             </p:column>  
+             
+             <p:rowExpansion>
+              
+               <p:dataList value="#{order.orderDishes}" var="od" type="ordered">
+        				#{od.dish.name}
+   					</p:dataList>
+              </p:rowExpansion> 
+              
+              
+    <p:column headerText="Date/time" sortBy="#{order.timeStamp}" >
+        <h:outputText value="#{order.timeStamp}" >
+         <f:convertDateTime pattern="dd/MM/yyyy  hh:mm" />
+       </h:outputText>
+    </p:column>
+	
+	
+    <p:column headerText="Client Address" sortBy="#{order.client_address}" >
+        <h:outputText value="#{order.client_address}" />
+    </p:column>
+    
+	
+    <p:column sortBy="#{order.status}" headerText="Status" >  
+        <h:outputText value="#{order.status}" />
+    </p:column>
+	
+	
+    <p:column sortBy="#{order.deliveredBy.fullName}" headerText="Responsible person" >  
+        <h:outputText value="#{order.deliveredBy.fullName}" />
+    </p:column>
+	
+   	  </p:dataTable>
+	
+		<br/><br/> 
+		
+	</h:form>	
+	</ui:define>
+	</ui:composition>
+	</h:body>
+	
+	
+</html>

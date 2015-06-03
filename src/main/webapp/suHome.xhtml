@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:body>
+<ui:composition template="WEB-INF/template/SUTemplate.xhtml">
+	<ui:define name="content">
+<center><h2>LIST OF STAFF</h2></center>
+ 
+ <h:form id="staff">
+ <p:growl id="msgs"/>
+ 		
+ 	<p:dataTable id="staff" value="#{suBean.staffList}" editable="true" var="staff" border="1">
+				 <p:ajax event="rowEdit" listener="#{suBean.onRowEdit}" update=":staff:msgs" />
+       <p:ajax event="rowEditCancel" listener="#{suBean.onRowCancel}" update=":staff:msgs" />
+ 
+ 
+ 					<p:column>
+					<f:facet name="header">
+						<h:outputText value="Full Name"/>
+					</f:facet>
+					  <p:cellEditor>
+          <f:facet name="output">
+					<h:outputText value="#{staff.fullName}" /></f:facet>
+          <f:facet name="input">
+					<p:inputText value="#{staff.fullName}"  required="true"/></f:facet>
+					
+					</p:cellEditor>
+					</p:column>
+                
+                
+                	<p:column>
+					<f:facet name="header">
+						<h:outputText value="login"/>
+					</f:facet>
+					  <p:cellEditor>
+          <f:facet name="output">
+					<h:outputText value="#{staff.login}" /></f:facet>
+          <f:facet name="input">
+					<p:inputText value="#{staff.login}"  required="true"/></f:facet>
+					
+					</p:cellEditor>
+					</p:column>
+                
+                
+                	<p:column>
+					<f:facet name="header">
+						<h:outputText value="Authorities"/>
+					</f:facet>
+					  <p:cellEditor>
+          <f:facet name="output">
+					<h:outputText value="#{staff.authorities}" /></f:facet>
+          <f:facet name="input">
+					<p:selectOneMenu value="#{staff.authorities}"  required="true" style="width:250px">
+					  <f:selectItems value="#{suBean.staffroles}" var="role" itemLabel="#{role}" itemValue="#{role}" />
+         
+					</p:selectOneMenu></f:facet>
+					
+					</p:cellEditor>
+					</p:column>
+        
+                 	<p:column>
+					<f:facet name="header">
+						<h:outputText value="Is active user"/>
+					</f:facet>
+					  <p:cellEditor>
+          <f:facet name="output">
+					<h:outputText value="#{staff.isActive}" /></f:facet>
+          <f:facet name="input">
+					<p:selectOneMenu value="#{staff.isActive}"  required="true" style="width:250px">
+					  <f:selectItems value="#{suBean.isActiveStates}" var="role" itemLabel="#{role}" itemValue="#{role}" />
+         
+					</p:selectOneMenu></f:facet>
+					
+					</p:cellEditor>
+					</p:column>
+        
+        
+                
+                <p:column>
+           <p:rowEditor />
+ </p:column>
+ 
+ </p:dataTable>
+		</h:form>
+	</ui:define>
+	</ui:composition>
+	</h:body>
+	
+	
+</html>

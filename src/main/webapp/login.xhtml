@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:body>
+<ui:composition template="WEB-INF/template/GuestTemplate.xhtml">
+	
+	<ui:define name="content">
+	<center><h1>Sign in</h1></center>
+	 <h:form id="grid">
+	   <p:messages autoUpdate="true"/>
+    <p:growl id="msgs"/>
+    <div style="font color:red">#{login.session}</div>
+     <h:outputLabel for="login" value="Login (e-mail):*" style="font-weight:bold"/>                    
+            <p:inputText id="login" value="#{login.login}" required="true" label="Login"/>
+            <p:message for="login" />
+       <h:outputLabel for="password" value="Password:*" style="font-weight:bold"/>                    
+            <p:password id="password" value="#{login.password}" required="true" label="Login"/>
+           <p:message for="password" />
+           
+           <p:selectOneRadio id="console" value="#{login.staff}" required="true">
+            <f:selectItem itemLabel="I am a client" itemValue="false" />
+            <f:selectItem itemLabel="I am a staff" itemValue="true" />
+         </p:selectOneRadio>
+          <p:message for="console" />
+         
+         <br/> <br/>  <h:outputText  value="#{login.errorMessage}"/> <br/>
+    <p:commandButton value="Login" ajax="true" validateClient="true" icon="ui-icon-check" 
+    update=":grid:msgs" action="#{login.signin}" 
+   style="margin-right:10px"/>
+   <br/> <br/><br/> <br/><br/> <br/>
+    </h:form>
+	 
+	 </ui:define>
+	
+</ui:composition>
+</h:body>
+
+</html>
+

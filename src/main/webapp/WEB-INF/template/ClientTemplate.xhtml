@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <title><ui:insert name="title">Welcome</ui:insert></title>
+</h:head>
+
+<h:body>
+<ui:debug hotkey="x" rendered="#{initParam['javax.faces.FACELETS_DEVELOPMENT']}"/>
+
+<div id="header" style="background-image: url('images/background.jpg');background-repeat: repeat-xy">
+    <ui:insert name="header">
+    	 <ui:include src="clientheader.xhtml"/>
+    	 
+    </ui:insert>
+</div>
+
+
+<div id="content">
+  <ui:insert name="content">
+    	 <ui:include src="clientcontent.xhtml"/>
+  </ui:insert>
+</div>
+ <div style="position:relative;bottom:0;width:100%;height:60px;">
+<div id="footer">
+  <ui:insert name="footer">
+  <div style="background-color:#DCDCDC;width:100%;color:black">
+  
+    	<ui:include src="clientfooter.xhtml"/>
+    	</div>
+  </ui:insert>
+</div>
+</div>
+</h:body>
+
+</html>

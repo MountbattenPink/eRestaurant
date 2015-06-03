@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="WEB-INF/template/ClientTemplate.xhtml">
+	
+	<ui:define name="content">
+	<span align="right"><h4>Welcome, #{login.currentUser.customer.fullName}
+	<h:link id="link" outcome="clientBucket" >
+<h4><b> Shopping cart:  <h:outputText value="#{clientBucket.wholeAmount}" /> / <h:outputText value="#{clientBucket.wholeSum}" > 
+<f:convertNumber pattern="#0.00" />
+</h:outputText>hrn </b></h4>
+</h:link></h4></span>
+	<center><h2>CHANGE PROFILE SETTINGS</h2></center>
+
+     <h:form>
+    <p:panel>
+        <p:messages autoUpdate="true"/>
+    <h:panelGrid id="grid" columns="4" cellpadding="5">
+            <h:outputLabel for="login" value="Login (e-mail):*" style="font-weight:bold"/>                    
+            <p:inputText id="login" value="#{clientProfile.currentUser.login}" required="true" label="Login"
+            validatorMessage="Please enter valid email.">
+            <f:validateRegex pattern="^(\S+)@([a-z0-9-]+)(\.)([a-z]{2,4})(\.?)([a-z]{0,4})+$" />
+            </p:inputText>
+            <p:message for="login" />
+            <h:outputText value="#{clientProfile.currentUser.login}" />
+         </h:panelGrid>    
+          
+          
+           <h:panelGrid id="fullNameGrid" columns="4" cellpadding="5">
+              <h:outputLabel for="name" value="Full Name:*" style="font-weight:bold"/>                    
+            <p:inputText id="name" value="#{clientProfile.currentUser.fullName}" 
+            validatorMessage="Please enter valid name and surname." required="true" label="Name">
+                <f:validateRegex  pattern="^([a-zA-Z]+\s)*[a-zA-Z]+$" />
+            </p:inputText>
+            <p:message for="name" />
+            <h:outputText value="#{clientProfile.currentUser.fullName}" />
+            </h:panelGrid>
+          
+          <h:panelGrid id="birthdateGrid" columns="4" cellpadding="5">
+           
+           <p:outputLabel for="birthdate" value="Birth date:" style="font-weight:bold"/>
+        <p:calendar id="birthdate" value="#{clientProfile.birthDate}" pattern="dd-MM-yyyy" mask="true"  required="false" 
+        label="birthdate"/>
+  <p:message for="birthdate" />
+            </h:panelGrid>
+          
+          
+           
+           <h:panelGrid id="addressGrid" columns="4" cellpadding="5">
+              <h:outputLabel for="address" value="Address:*" style="font-weight:bold"/>                    
+            <p:inputText id="address" value="#{clientProfile.currentUser.address}" 
+             required="true" label="address"/>
+            <p:message for="address" />
+            <h:outputText value="#{clientProfile.currentUser.address}" />
+            </h:panelGrid>
+          
+           <h:panelGrid id="billingGrid" columns="3" cellpadding="5">
+            <h:outputLabel for="billing" value="Billing info:" style="font-weight:bold"/>                    
+            <p:inputText id="billing" value="#{clientProfile.currentUser.billingInfo}" required="false" label="billing"/>
+            <h:outputText value="#{clientProfile.currentUser.billingInfo}" />
+          </h:panelGrid>
+          
+         
+          
+          
+          
+           <h:panelGrid columns="3" id="matchGrid" cellpadding="5">                   
+          <h:outputText value="Password:"  style="font-weight:bold"/>
+        <p:password id="pass1" value="#{clientProfile.currentUser.password}" required="true" feedback="true" match="pass2" label="Password 1"/>
+         <p:message for="pass1" />
+      <h:outputLabel for="pass2" value="Repeat password:"  style="font-weight:bold"/>
+        <p:password id="pass2" value="#{clientProfile.currentUser.password}" required="true" label="Password 2"/>
+         <p:message for="pass2" />
+      </h:panelGrid>    
+            
+         
+  <p:commandButton value="Change data" update="matchGrid" ajax="false" icon="ui-icon-check" action="#{clientProfile.changeData}" 
+   style="margin-right:10px"/>
+ </p:panel>
+ 
+</h:form>	 
+
+	<br/><br/> 
+	</ui:define>
+	</ui:composition>
+</html>
